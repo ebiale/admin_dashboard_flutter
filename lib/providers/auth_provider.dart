@@ -1,6 +1,5 @@
-// ignore_for_file: avoid_print
-
 import 'package:admin_dashboard/router/router.dart';
+
 import 'package:admin_dashboard/services/local_storage.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
 import 'package:flutter/material.dart';
