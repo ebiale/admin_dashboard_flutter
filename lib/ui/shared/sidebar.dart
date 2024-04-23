@@ -1,16 +1,24 @@
-import 'package:admin_dashboard/constants/colors.dart';
-import 'package:admin_dashboard/providers/side_menu_provider.dart';
-import 'package:admin_dashboard/ui/shared/widgets/menu_item.dart';
 import 'package:flutter/material.dart';
 
+import 'package:admin_dashboard/router/router.dart';
+
+import 'package:admin_dashboard/providers/side_menu_provider.dart';
+import 'package:admin_dashboard/services/navigation_service.dart';
+
+import 'package:admin_dashboard/constants/colors.dart';
+
+import 'package:admin_dashboard/ui/shared/widgets/menu_item.dart';
 import 'package:admin_dashboard/ui/shared/widgets/logo.dart';
 import 'package:admin_dashboard/ui/shared/widgets/text_separator.dart';
+import 'package:provider/provider.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final sideMenuProvider = Provider.of<SideMenuProvider>(context);
+
     return Container(
       width: 200,
       height: double.infinity,
@@ -22,10 +30,12 @@ class SideBar extends StatelessWidget {
           const SizedBox(height: 30),
           const TextSeparator(text: 'main'),
           MenuItem(
+              isActive:
+                  sideMenuProvider.currentPage == Flurorouter.dashboardRoute,
               text: 'Dashboard',
               icon: Icons.dashboard_customize_outlined,
               onPressed: () {
-                SideMenuProvider.closeMenu();
+                navigateTo(Flurorouter.dashboardRoute);
               }),
           MenuItem(
               text: 'Collections',
@@ -46,7 +56,12 @@ class SideBar extends StatelessWidget {
           const SizedBox(height: 30),
           const TextSeparator(text: 'UI elements'),
           MenuItem(
-              text: 'Icons', icon: Icons.list_alt_outlined, onPressed: () {}),
+              isActive: sideMenuProvider.currentPage == Flurorouter.iconsRoute,
+              text: 'Icons',
+              icon: Icons.list_alt_outlined,
+              onPressed: () {
+                navigateTo(Flurorouter.iconsRoute);
+              }),
           MenuItem(
               text: 'Marketing',
               icon: Icons.mark_email_read_outlined,
@@ -56,7 +71,14 @@ class SideBar extends StatelessWidget {
               icon: Icons.note_add_outlined,
               onPressed: () {}),
           MenuItem(
-              text: 'Blank', icon: Icons.post_add_outlined, onPressed: () {}),
+              isActive: sideMenuProvider.currentPage == Flurorouter.blankRoute,
+              text: 'Blank',
+              icon: Icons.post_add_outlined,
+              onPressed: () {
+                navigateTo(Flurorouter.blankRoute);
+              }),
+          const SizedBox(height: 50),
+          const TextSeparator(text: 'Exit'),
           MenuItem(
               text: 'Logout',
               icon: Icons.exit_to_app_outlined,
@@ -64,6 +86,11 @@ class SideBar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void navigateTo(String route) {
+    NavigationService.navigateTo(route);
+    SideMenuProvider.closeMenu();
   }
 
   BoxDecoration buildBoxDecoration() => const BoxDecoration(

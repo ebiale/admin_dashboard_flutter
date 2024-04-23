@@ -4,3 +4,7 @@ class App {
 
   static Duration animationDuration = const Duration(milliseconds: 350);
 }
+
+class API {
+  static const String users = '/usuarios';
+}

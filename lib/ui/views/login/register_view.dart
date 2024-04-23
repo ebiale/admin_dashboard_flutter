@@ -1,9 +1,11 @@
-import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/registration_form_provider.dart';
+
 import 'package:admin_dashboard/router/router.dart';
+
 import 'package:admin_dashboard/ui/buttons/custom_outlined_button.dart';
 import 'package:admin_dashboard/ui/buttons/link_text.dart';
 import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
@@ -30,6 +32,7 @@ class RegisterView extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 370),
               child: Form(
                   autovalidateMode: AutovalidateMode.always,
+                  key: registrationFormProvider.formKey,
                   child: Column(
                     children: [
                       TextFormField(
@@ -79,8 +82,10 @@ class RegisterView extends StatelessWidget {
                                 registrationFormProvider.validateForm();
 
                             if (isValid) {
-                              authProvider.login(registrationFormProvider.email,
-                                  registrationFormProvider.psw);
+                              authProvider.register(
+                                  registrationFormProvider.email,
+                                  registrationFormProvider.psw,
+                                  registrationFormProvider.name);
                             }
                           },
                           text: 'Create Account')
