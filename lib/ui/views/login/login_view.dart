@@ -38,13 +38,21 @@ class LoginView extends StatelessWidget {
                           onChanged: (value) {
                             loginFormProvider.email = value;
                           },
+                          onFieldSubmitted: (_) {
+                            onFormSubmit(loginFormProvider, authProvider);
+                          },
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        PasswordField(onChanged: (value) {
-                          loginFormProvider.psw = value;
-                        }),
+                        PasswordField(
+                          onChanged: (value) {
+                            loginFormProvider.psw = value;
+                          },
+                          onFieldSubmitted: (_) {
+                            onFormSubmit(loginFormProvider, authProvider);
+                          },
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -60,12 +68,7 @@ class LoginView extends StatelessWidget {
                         ),
                         CustomOutlinedButton(
                             onPressed: () {
-                              final isValid = loginFormProvider.validateForm();
-
-                              if (isValid) {
-                                authProvider.login(loginFormProvider.email,
-                                    loginFormProvider.psw);
-                              }
+                              onFormSubmit(loginFormProvider, authProvider);
                             },
                             text: 'Enter')
                       ],
@@ -74,5 +77,14 @@ class LoginView extends StatelessWidget {
             ),
           );
         }));
+  }
+
+  void onFormSubmit(
+      LoginFormProvider loginFormProvider, AuthProvider authProvider) {
+    final isValid = loginFormProvider.validateForm();
+
+    if (isValid) {
+      authProvider.login(loginFormProvider.email, loginFormProvider.psw);
+    }
   }
 }

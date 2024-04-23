@@ -6,15 +6,18 @@ class PasswordField extends StatelessWidget {
   const PasswordField({
     super.key,
     required this.onChanged,
+    required this.onFieldSubmitted,
   });
 
   final void Function(String) onChanged;
+  final void Function(String) onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: true,
       onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Password is required';

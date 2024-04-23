@@ -35,10 +35,14 @@ class AuthProvider extends ChangeNotifier {
       final authResponse = AuthResponse.fromJson(json);
 
       user = authResponse.user;
-      LocalStorage.prefs.setString('token', authResponse.token);
-      _isAuthenticated();
 
+      authStatus = AuthStatus.authenticated;
+      LocalStorage.prefs.setString('token', authResponse.token);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
+
+      LGApi.configureDio();
+
+      notifyListeners();
     }).catchError((e) {
       NotificationService.showSnackBarError('$e');
     });

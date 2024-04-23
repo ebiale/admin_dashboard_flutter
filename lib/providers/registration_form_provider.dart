@@ -8,12 +8,6 @@ class RegistrationFormProvider extends ChangeNotifier {
   String psw = '';
 
   bool validateForm() {
-    if (formKey.currentState!.validate()) {
-      print('Form valid ... Login');
-      print('$email === $psw === $name');
-      return true;
-    }
-
-    return false;
+    return formKey.currentState!.validate();
   }
 }

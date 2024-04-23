@@ -44,6 +44,9 @@ class RegisterView extends StatelessWidget {
                         onChanged: (value) {
                           registrationFormProvider.name = value;
                         },
+                        onFieldSubmitted: (_) {
+                          onFormSubmit(registrationFormProvider, authProvider);
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your name';
@@ -57,12 +60,16 @@ class RegisterView extends StatelessWidget {
                       ),
                       EmailField(onChanged: (value) {
                         registrationFormProvider.email = value;
+                      }, onFieldSubmitted: (_) {
+                        onFormSubmit(registrationFormProvider, authProvider);
                       }),
                       const SizedBox(
                         height: 20,
                       ),
                       PasswordField(onChanged: (value) {
                         registrationFormProvider.psw = value;
+                      }, onFieldSubmitted: (_) {
+                        onFormSubmit(registrationFormProvider, authProvider);
                       }),
                       const SizedBox(
                         height: 20,
@@ -78,15 +85,8 @@ class RegisterView extends StatelessWidget {
                       ),
                       CustomOutlinedButton(
                           onPressed: () {
-                            final isValid =
-                                registrationFormProvider.validateForm();
-
-                            if (isValid) {
-                              authProvider.register(
-                                  registrationFormProvider.email,
-                                  registrationFormProvider.psw,
-                                  registrationFormProvider.name);
-                            }
+                            onFormSubmit(
+                                registrationFormProvider, authProvider);
                           },
                           text: 'Create Account')
                     ],
@@ -96,5 +96,15 @@ class RegisterView extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void onFormSubmit(RegistrationFormProvider registrationFormProvider,
+      AuthProvider authProvider) {
+    final isValid = registrationFormProvider.validateForm();
+
+    if (isValid) {
+      authProvider.register(registrationFormProvider.email,
+          registrationFormProvider.psw, registrationFormProvider.name);
+    }
   }
 }
