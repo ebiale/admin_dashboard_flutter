@@ -6,57 +6,71 @@ import 'package:admin_dashboard/api/lenagurumis_api.dart';
 
 import 'package:admin_dashboard/services/local_storage.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
+import 'package:admin_dashboard/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
 class AuthProvider extends ChangeNotifier {
-  String? _token;
   AuthStatus authStatus = AuthStatus.checking;
   User? user;
 
   AuthProvider() {
-    isAuthenticated();
+    _isAuthenticated();
   }
 
   login(String email, String psw) {
-    // todo: http request
-
-    _token = "aasdf.qwesggdsf.gasdfqhweu";
-
-    LocalStorage.prefs.setString('token', _token!);
-    isAuthenticated();
-
-    NavigationService.replaceTo(Flurorouter.dashboardRoute);
+    final data = {'correo': email, 'password': psw};
+    _authenticateAndLogin(API.login, data);
   }
 
   register(String email, String psw, String name) {
     final data = {'nombre': name, 'correo': email, 'password': psw};
 
-    LGApi.post(API.users, data).then((json) {
+    _authenticateAndLogin(API.users, data);
+  }
+
+  void _authenticateAndLogin(String api, Map<String, String> data) {
+    LGApi.post(api, data).then((json) {
       final authResponse = AuthResponse.fromJson(json);
 
       user = authResponse.user;
       LocalStorage.prefs.setString('token', authResponse.token);
-      isAuthenticated();
+      _isAuthenticated();
 
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
     }).catchError((e) {
-      print('Error in $e');
-      //todo: display error notification
+      NotificationService.showSnackBarError('$e');
     });
   }
 
-  Future<bool> isAuthenticated() async {
+  Future<bool> _isAuthenticated() async {
     if (LocalStorage.prefs.getString('token') == null) {
-      authStatus = AuthStatus.notAuthenticated;
-      notifyListeners();
+      logout();
       return false;
     }
 
-    authStatus = AuthStatus.authenticated;
-    notifyListeners();
+    try {
+      final resp = await LGApi.httpGet(API.auth);
+      final authResponse = AuthResponse.fromJson(resp);
 
-    return true;
+      LocalStorage.prefs.setString('token', authResponse.token);
+
+      user = authResponse.user;
+      authStatus = AuthStatus.authenticated;
+      LGApi.configureDio();
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      logout();
+      return false;
+    }
+  }
+
+  logout() {
+    LocalStorage.prefs.remove('token');
+    authStatus = AuthStatus.notAuthenticated;
+    notifyListeners();
   }
 }

@@ -26,7 +26,7 @@ class LGApi {
       return resp.data;
     } catch (e) {
       print(e);
-      throw ('Something went wrong getting the request');
+      throw ('Something went wrong: $e');
     }
   }
 
@@ -37,8 +37,7 @@ class LGApi {
       final resp = await _dio.post(path, data: formData);
       return resp.data;
     } catch (e) {
-      print(e);
-      throw ('Something went wrong posting the request');
+      throw ('Something went wrong: $e');
     }
   }
 }
