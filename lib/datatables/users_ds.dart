@@ -1,7 +1,12 @@
-import 'package:admin_dashboard/models/http/users.dart';
+import 'package:admin_dashboard/providers/auth_provider.dart';
+import 'package:admin_dashboard/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 
+import 'package:admin_dashboard/helpers/image_helper.dart';
 import 'package:admin_dashboard/constants/colors.dart';
+
+import 'package:admin_dashboard/models/http/users.dart';
+import 'package:provider/provider.dart';
 
 class UsersDTS extends DataTableSource {
   final BuildContext context;
@@ -11,11 +16,16 @@ class UsersDTS extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
+    final usersProvider = Provider.of<UsersProvider>(context);
     final user = users[index];
-    const image =
-        Image(image: AssetImage('no-image.jpg'), width: 35, height: 35);
+    final currentUser = Provider.of<AuthProvider>(context).user;
+
+    final image = Image(
+        image: AssetImage(ImageHelper.getImagePath('noimage.jpg')),
+        width: 35,
+        height: 35);
     return DataRow.byIndex(index: index, cells: [
-      const DataCell(image),
+      DataCell(ClipOval(child: image)),
       DataCell(Text(user.name)),
       DataCell(Text(user.email)),
       DataCell(Text(user.uid)),
@@ -26,35 +36,37 @@ class UsersDTS extends DataTableSource {
             icon: const Icon(Icons.edit_outlined),
             hoverColor: AppColors.primary.withOpacity(0.1),
           ),
-          IconButton(
-            onPressed: () {
-              final dialog = Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: AlertDialog(
-                    title: const Text('You are about to delete the user'),
-                    content: const Text('Are you sure?'),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel')),
-                      TextButton(
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Confirm')),
-                    ],
+          if (currentUser?.role == 'ADMIN_ROLE' && currentUser?.uid != user.uid)
+            IconButton(
+              onPressed: () {
+                final dialog = Center(
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: AlertDialog(
+                      title: const Text('You are about to delete the user'),
+                      content: const Text('Are you sure?'),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel')),
+                        TextButton(
+                            onPressed: () async {
+                              await usersProvider.removeUser(user);
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Confirm')),
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
 
-              showDialog(context: context, builder: (_) => dialog);
-            },
-            icon: const Icon(Icons.delete_outlined),
-            hoverColor: AppColors.error.withOpacity(0.1),
-          ),
+                showDialog(context: context, builder: (_) => dialog);
+              },
+              icon: const Icon(Icons.delete_outlined),
+              hoverColor: AppColors.error.withOpacity(0.1),
+            ),
         ],
       )),
     ]);

@@ -23,7 +23,8 @@ class DashboardView extends StatelessWidget {
             style: CustomLabels.h1,
           ),
           const SizedBox(height: 10),
-          WhiteCard(title: user!.name, child: Text(user.email))
+          WhiteCard(
+              title: '${user!.name} (${user.role})', child: Text(user.email))
         ],
       ),
     );
