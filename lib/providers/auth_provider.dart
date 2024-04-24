@@ -44,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
 
       notifyListeners();
     }).catchError((e) {
-      NotificationService.showSnackBarError('$e');
+      NotificationService.showSnackBarMsg('$e', NotificationType.error);
     });
   }
 

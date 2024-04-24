@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 class CustomOutlinedButton extends StatelessWidget {
   final Function onPressed;
   final String text;
-  final Color color;
+  final Color bgColor;
   final bool isFilled;
+  final Color textColor;
 
   const CustomOutlinedButton(
       {super.key,
       required this.onPressed,
       required this.text,
-      this.color = Colors.blue,
+      this.bgColor = Colors.blue,
+      this.textColor = Colors.grey,
       this.isFilled = false});
 
   @override
@@ -20,13 +22,13 @@ class CustomOutlinedButton extends StatelessWidget {
           shape: MaterialStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
-          side: MaterialStatePropertyAll(BorderSide(color: color)),
+          side: MaterialStatePropertyAll(BorderSide(color: bgColor)),
           backgroundColor: MaterialStatePropertyAll(
-              isFilled ? color.withOpacity(0.3) : Colors.transparent)),
+              isFilled ? bgColor.withOpacity(0.3) : Colors.transparent)),
       onPressed: () => onPressed(),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 16, color: Colors.grey),
+        style: TextStyle(fontSize: 16, color: textColor),
       ),
     );
   }

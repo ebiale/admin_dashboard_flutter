@@ -7,6 +7,7 @@ import 'package:admin_dashboard/datatables/categories_ds.dart';
 
 import 'package:admin_dashboard/ui/buttons/custom_icon_button.dart';
 import 'package:admin_dashboard/ui/labels/custom_labels.dart';
+import 'package:admin_dashboard/ui/modals/category_modal.dart';
 
 class CategoriesView extends StatefulWidget {
   const CategoriesView({super.key});
@@ -56,7 +57,13 @@ class _CategoriesViewState extends State<CategoriesView> {
             },
             actions: [
               CustomIconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        constraints: const BoxConstraints.expand(),
+                        context: context,
+                        builder: (_) => const CategoryModal());
+                  },
                   text: 'Add Category',
                   icon: Icons.post_add_outlined)
             ],

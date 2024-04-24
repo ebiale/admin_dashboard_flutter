@@ -30,11 +30,31 @@ class LGApi {
     }
   }
 
+  static put(String path, Map<String, dynamic> data) async {
+    final formData = FormData.fromMap(data);
+
+    try {
+      final resp = await _dio.put(path, data: formData);
+      return resp.data;
+    } catch (e) {
+      throw ('Something went wrong: $e');
+    }
+  }
+
   static post(String path, Map<String, dynamic> data) async {
     final formData = FormData.fromMap(data);
 
     try {
       final resp = await _dio.post(path, data: formData);
+      return resp.data;
+    } catch (e) {
+      throw ('Something went wrong: $e');
+    }
+  }
+
+  static delete(String path) async {
+    try {
+      final resp = await _dio.delete(path);
       return resp.data;
     } catch (e) {
       throw ('Something went wrong: $e');

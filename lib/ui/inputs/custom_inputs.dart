@@ -5,14 +5,16 @@ class CustomInputs {
       {required String hint,
       required String label,
       required IconData icon,
-      Color color = Colors.blue}) {
+      Color color = Colors.blue,
+      Color labelColor = Colors.grey,
+      Color textColor = Colors.grey}) {
     OutlineInputBorder outlineInputBorder = OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white.withOpacity(0.3)));
     OutlineInputBorder focusedOutlineInputBorder = OutlineInputBorder(
         borderSide: BorderSide(color: color.withOpacity(0.3)));
 
-    MaterialColor textColor = Colors.grey;
     TextStyle textStyle = TextStyle(color: textColor);
+    TextStyle labelStyle = TextStyle(color: labelColor);
 
     return InputDecoration(
         border: outlineInputBorder,
@@ -24,7 +26,7 @@ class CustomInputs {
           icon,
           color: textColor,
         ),
-        labelStyle: textStyle,
+        labelStyle: labelStyle,
         hintStyle: textStyle);
   }
 

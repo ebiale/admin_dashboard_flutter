@@ -79,6 +79,11 @@ class MyApp extends StatelessWidget {
           buttonTheme: const ButtonThemeData(
               buttonColor: AppColors.primary,
               textTheme: ButtonTextTheme.primary),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: AppColors.primary,
+            onPrimary:
+                Colors.white, // Color de texto/iconos sobre el fondo primario
+          ),
           cardTheme: const CardTheme(
             surfaceTintColor: Colors.white,
           ),

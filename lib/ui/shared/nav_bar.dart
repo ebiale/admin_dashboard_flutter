@@ -27,7 +27,7 @@ class NavBar extends StatelessWidget {
                 },
                 icon: const Icon(Icons.menu_outlined)),
 
-          const SizedBox(width: 5),
+          const SizedBox(width: 20),
 
           //search input
           if (size.width >= App.xsmallScreen)
