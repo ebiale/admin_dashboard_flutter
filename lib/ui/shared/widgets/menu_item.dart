@@ -43,11 +43,11 @@ class _MenuItemState extends State<MenuItem> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(widget.icon, color: Colors.white.withOpacity(0.1)),
+                  Icon(widget.icon, color: Colors.white.withOpacity(0.5)),
                   const SizedBox(width: 10),
                   Text(
                     widget.text,
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.montserratAlternates(
                         fontSize: 16, color: Colors.white.withOpacity(0.8)),
                   )
                 ],

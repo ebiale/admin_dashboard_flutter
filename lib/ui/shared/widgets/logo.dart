@@ -16,10 +16,13 @@ class Logo extends StatelessWidget {
             image: AssetImage(ImageHelper.getImagePath('lg5.png')),
             width: 40,
           ),
-          Text(
+          const Text(
             'LenaGurumis',
-            style: GoogleFonts.montserratAlternates(
-                fontSize: 20, fontWeight: FontWeight.w200, color: Colors.white),
+            style: TextStyle(
+                fontFamily: 'ButteyHoney',
+                fontSize: 30,
+                fontWeight: FontWeight.w200,
+                color: Colors.white),
           )
         ],
       ),

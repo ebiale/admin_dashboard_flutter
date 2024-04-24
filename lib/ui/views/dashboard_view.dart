@@ -12,7 +12,6 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AuthProvider>(context).user;
-    print(user);
 
     return ListView(
       physics: const ClampingScrollPhysics(),

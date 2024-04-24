@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'package:admin_dashboard/constants/colors.dart';
 
 import 'package:admin_dashboard/api/lenagurumis_api.dart';
 
@@ -10,7 +13,10 @@ import 'package:admin_dashboard/services/notifications_service.dart';
 import 'package:admin_dashboard/router/router.dart';
 
 import 'package:admin_dashboard/providers/auth_provider.dart';
+import 'package:admin_dashboard/providers/categories_providers.dart';
 import 'package:admin_dashboard/providers/side_menu_provider.dart';
+
+import 'package:admin_dashboard/ui/scroll_behavior.dart';
 
 import 'package:admin_dashboard/ui/layouts/auth/auth_layout.dart';
 import 'package:admin_dashboard/ui/layouts/dashboard/dashboard_layout.dart';
@@ -32,7 +38,8 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
-        ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider())
+        ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
+        ChangeNotifierProvider(create: (_) => CategoriesProvider()),
       ],
       child: const MyApp(),
     );
@@ -46,6 +53,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      scrollBehavior: MyCustomScrollBehavior(),
       title: 'Admin Dashboard',
       initialRoute: Flurorouter.defaultRoute,
       onGenerateRoute: Flurorouter.router.generator,
@@ -65,6 +73,15 @@ class MyApp extends StatelessWidget {
         }
       },
       theme: ThemeData.light().copyWith(
+          textTheme: GoogleFonts.montserratAlternatesTextTheme(
+              Theme.of(context).textTheme),
+          primaryColor: AppColors.primary,
+          buttonTheme: const ButtonThemeData(
+              buttonColor: AppColors.primary,
+              textTheme: ButtonTextTheme.primary),
+          cardTheme: const CardTheme(
+            surfaceTintColor: Colors.white,
+          ),
           scrollbarTheme: const ScrollbarThemeData().copyWith(
               thumbColor:
                   MaterialStateProperty.all(Colors.grey.withOpacity(0.5)))),

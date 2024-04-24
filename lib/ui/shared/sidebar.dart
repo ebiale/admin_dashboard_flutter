@@ -43,9 +43,11 @@ class SideBar extends StatelessWidget {
               icon: Icons.category_outlined,
               onPressed: () {}),
           MenuItem(
-              text: 'Patterns',
+              text: 'Categories',
               icon: Icons.auto_awesome_motion,
-              onPressed: () {}),
+              onPressed: () {
+                navigateTo(Flurorouter.categoriesRoute);
+              }),
           MenuItem(text: 'Galery', icon: Icons.photo_library, onPressed: () {}),
           MenuItem(text: 'About me', icon: Icons.person, onPressed: () {}),
           MenuItem(text: 'FAQ', icon: Icons.help_outline, onPressed: () {}),

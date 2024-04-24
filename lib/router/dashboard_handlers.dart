@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/ui/views/categories_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,9 @@ class DashboardHandlers {
 
   static Handler blank =
       _buildHandler(const BlankView(), Flurorouter.blankRoute);
+
+  static Handler categories =
+      _buildHandler(const CategoriesView(), Flurorouter.categoriesRoute);
 }
 
 Handler _buildHandler(view, String route) {

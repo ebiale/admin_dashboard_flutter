@@ -9,4 +9,5 @@ class API {
   static const String users = '/usuarios';
   static const String login = '/auth/login';
   static const String auth = '/auth';
+  static const String categories = '/categorias';
 }
