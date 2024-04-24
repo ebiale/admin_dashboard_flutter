@@ -25,7 +25,6 @@ class LGApi {
 
       return resp.data;
     } catch (e) {
-      print(e);
       throw ('Something went wrong: $e');
     }
   }

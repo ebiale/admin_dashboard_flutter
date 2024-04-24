@@ -39,6 +39,13 @@ class SideBar extends StatelessWidget {
                 navigateTo(Flurorouter.dashboardRoute);
               }),
           MenuItem(
+              isActive: sideMenuProvider.currentPage == Flurorouter.usersRoute,
+              text: 'Users',
+              icon: Icons.person_outlined,
+              onPressed: () {
+                navigateTo(Flurorouter.usersRoute);
+              }),
+          MenuItem(
               text: 'Collections',
               icon: Icons.category_outlined,
               onPressed: () {}),
@@ -94,7 +101,7 @@ class SideBar extends StatelessWidget {
   }
 
   void navigateTo(String route) {
-    NavigationService.navigateTo(route);
+    NavigationService.replaceTo(route);
     SideMenuProvider.closeMenu();
   }
 

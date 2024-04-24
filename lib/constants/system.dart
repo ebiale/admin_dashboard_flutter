@@ -6,8 +6,9 @@ class App {
 }
 
 class API {
-  static const String users = '/usuarios';
-  static const String login = '/auth/login';
   static const String auth = '/auth';
+  static const String login = '$auth/login';
+  static const String users = '/usuarios';
+  static const String paginatedUsers = '$users?limite=10&desde=0';
   static const String categories = '/categorias';
 }

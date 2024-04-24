@@ -1,0 +1,80 @@
+import 'package:admin_dashboard/api/lenagurumis_api.dart';
+import 'package:admin_dashboard/constants/system.dart';
+import 'package:admin_dashboard/models/http/users.dart';
+import 'package:admin_dashboard/models/http/users_response.dart';
+import 'package:admin_dashboard/services/notifications_service.dart';
+import 'package:flutter/material.dart';
+
+class UsersProvider extends ChangeNotifier {
+  List<User> users = [];
+  bool isLoading = true;
+
+  UsersProvider() {
+    getPaginatedUsers();
+  }
+
+  getPaginatedUsers() async {
+    try {
+      final resp = await LGApi.httpGet(API.paginatedUsers);
+      final usersResponse = UsersResponse.fromMap(resp);
+
+      users = [...usersResponse.users];
+
+      isLoading = false;
+
+      notifyListeners();
+    } on Exception catch (e) {
+      NotificationService.showSnackBarMsg(
+          'Error getting users: $e', NotificationType.error);
+    }
+  }
+
+  Future addUser(String name) async {
+    final data = {'nombre': name};
+    try {
+      final resp = await LGApi.post(API.users, data);
+      final user = User.fromJson(resp);
+
+      users.add(user);
+      notifyListeners();
+      NotificationService.showSnackBarMsg(
+          'Successfully added user: $name', NotificationType.success);
+    } catch (e) {
+      NotificationService.showSnackBarMsg(
+          'Error adding user: $name', NotificationType.error);
+    }
+  }
+
+  Future editUser(String newName, String id) async {
+    final data = {'nombre': newName};
+    final String url = '${API.users}/$id';
+
+    try {
+      await LGApi.put(url, data);
+
+      final index = users.indexWhere((element) => element.uid == id);
+      if (index != -1) {
+        users[index].name = newName;
+      }
+      notifyListeners();
+      NotificationService.showSnackBarMsg(
+          'Successfully edited user: $newName', NotificationType.success);
+    } catch (e) {
+      NotificationService.showSnackBarMsg(
+          'Error updating user', NotificationType.error);
+    }
+  }
+
+  Future removeUser(User user) async {
+    try {
+      await LGApi.delete('${API.users}/${user.uid}');
+      users.removeWhere((element) => element.uid == user.uid);
+      notifyListeners();
+      NotificationService.showSnackBarMsg(
+          'Successfully removed user: ${user.name}', NotificationType.success);
+    } catch (e) {
+      NotificationService.showSnackBarMsg(
+          'Error deleting user: $user.name', NotificationType.error);
+    }
+  }
+}

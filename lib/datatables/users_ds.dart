@@ -1,37 +1,28 @@
+import 'package:admin_dashboard/models/http/users.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:admin_dashboard/constants/colors.dart';
 
-import 'package:admin_dashboard/providers/categories_providers.dart';
-
-import 'package:admin_dashboard/ui/modals/category_modal.dart';
-import 'package:admin_dashboard/models/http/category.dart';
-
-class CategoriesDTS extends DataTableSource {
-  final List<Category> categories;
+class UsersDTS extends DataTableSource {
   final BuildContext context;
+  final List<User> users;
 
-  CategoriesDTS(this.categories, this.context);
+  UsersDTS(this.users, this.context);
 
   @override
   DataRow getRow(int index) {
-    final Category category = categories[index];
-    final categoryProvider = Provider.of<CategoriesProvider>(context);
+    final user = users[index];
+    const image =
+        Image(image: AssetImage('no-image.jpg'), width: 35, height: 35);
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(category.id)),
-      DataCell(Text(category.name)),
-      DataCell(Text(category.user.name)),
+      const DataCell(image),
+      DataCell(Text(user.name)),
+      DataCell(Text(user.email)),
+      DataCell(Text(user.uid)),
       DataCell(Row(
         children: [
           IconButton(
-            onPressed: () async {
-              showModalBottomSheet(
-                  backgroundColor: Colors.transparent,
-                  constraints: const BoxConstraints.expand(),
-                  context: context,
-                  builder: (_) => CategoryModal(category: category));
-            },
+            onPressed: () async {},
             icon: const Icon(Icons.edit_outlined),
             hoverColor: AppColors.primary.withOpacity(0.1),
           ),
@@ -41,8 +32,7 @@ class CategoriesDTS extends DataTableSource {
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 500),
                   child: AlertDialog(
-                    title: Text(
-                        'You are about to delete the category $category.name'),
+                    title: const Text('You are about to delete the user'),
                     content: const Text('Are you sure?'),
                     actions: [
                       TextButton(
@@ -52,7 +42,6 @@ class CategoriesDTS extends DataTableSource {
                           child: const Text('Cancel')),
                       TextButton(
                           onPressed: () async {
-                            await categoryProvider.removeCategory(category);
                             Navigator.of(context).pop();
                           },
                           child: const Text('Confirm')),
@@ -75,7 +64,7 @@ class CategoriesDTS extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => categories.length;
+  int get rowCount => users.length;
 
   @override
   int get selectedRowCount => 0;

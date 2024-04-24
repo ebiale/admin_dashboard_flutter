@@ -17,7 +17,7 @@ class LinksBar extends StatelessWidget {
           LinkText(
             text: 'About',
             // ignore: avoid_print
-            onPressed: () => print('about'),
+            onPressed: () => {},
           ),
           const LinkText(text: 'Facebook'),
           const LinkText(text: 'Instagram'),
