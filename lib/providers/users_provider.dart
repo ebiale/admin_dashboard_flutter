@@ -30,6 +30,15 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<User> getUserById(String uid) async {
+    try {
+      final resp = await LGApi.httpGet('${API.users}/$uid');
+      return User.fromJson(resp);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   getPaginatedUsers() async {
     try {
       final resp = await LGApi.httpGet(API.paginatedUsers);

@@ -1,5 +1,7 @@
 import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/users_provider.dart';
+import 'package:admin_dashboard/router/router.dart';
+import 'package:admin_dashboard/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_dashboard/helpers/image_helper.dart';
@@ -32,7 +34,10 @@ class UsersDTS extends DataTableSource {
       DataCell(Row(
         children: [
           IconButton(
-            onPressed: () async {},
+            onPressed: () {
+              NavigationService.replaceTo(
+                  '${Flurorouter.usersRoute}/${user.uid}');
+            },
             icon: const Icon(Icons.edit_outlined),
             hoverColor: AppColors.primary.withOpacity(0.1),
           ),
