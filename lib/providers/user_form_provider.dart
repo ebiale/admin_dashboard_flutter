@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:typed_data';
+
 import 'package:admin_dashboard/api/lenagurumis_api.dart';
 import 'package:admin_dashboard/constants/system.dart';
 import 'package:admin_dashboard/models/http/user_request.dart';
@@ -41,6 +44,18 @@ class UserFormProvider extends ChangeNotifier {
       NotificationService.showSnackBarMsg(
           'Error updading user', NotificationType.error);
       return false;
+    }
+  }
+
+  Future<User> uploadImage(String path, Uint8List bytes) async {
+    try {
+      final resp = await LGApi.uploadFile(path, bytes);
+      user = User.fromJson(resp);
+      notifyListeners();
+
+      return user!;
+    } catch (e) {
+      throw 'Error in user form provider';
     }
   }
 

@@ -12,4 +12,5 @@ class API {
   static const String users = '/usuarios';
   static const String paginatedUsers = '$users?limite=10&desde=0';
   static const String categories = '/categorias';
+  static const String uploadImage = '/uploads/usuarios';
 }

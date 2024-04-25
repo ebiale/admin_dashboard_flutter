@@ -1,7 +1,11 @@
+// ignore_for_file: avoid_print
+
+import 'package:admin_dashboard/constants/system.dart';
 import 'package:admin_dashboard/helpers/validators.dart';
 import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
 import 'package:admin_dashboard/services/notifications_service.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -214,7 +218,20 @@ class _AvatarContainer extends StatelessWidget {
                     child: FloatingActionButton(
                         backgroundColor: AppColors.primary,
                         elevation: 0,
-                        onPressed: () {},
+                        onPressed: () async {
+                          FilePickerResult? result = await FilePicker.platform
+                              .pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['jpg', 'jpeg', 'png']);
+
+                          if (result != null) {
+                            PlatformFile file = result.files.first;
+                            final resp = await userFormProvider.uploadImage(
+                                '${API.uploadImage}/${user!.uid}', file.bytes!);
+                          } else {
+                            // User canceled the picker
+                          }
+                        },
                         child: const Icon(Icons.camera_alt_outlined, size: 20)),
                   ),
                 )

@@ -29,6 +29,7 @@ class User {
         name: json["nombre"],
         email: json["correo"],
         uid: json["uid"],
+        img: json["img"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,5 +39,6 @@ class User {
         "nombre": name,
         "correo": email,
         "uid": uid,
+        "img": img,
       };
 }

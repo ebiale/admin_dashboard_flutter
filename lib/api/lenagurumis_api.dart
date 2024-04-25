@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 
 import 'package:admin_dashboard/services/local_storage.dart';
@@ -24,11 +26,20 @@ class LGApi {
   }
 
   static put(String path, Map<String, dynamic> data) async {
-    return await _sendData(data, path, 'PUT');
+    final formData = FormData.fromMap(data);
+    return await _sendData(formData, path, 'PUT');
   }
 
   static post(String path, Map<String, dynamic> data) async {
-    return await _sendData(data, path, 'POST');
+    final formData = FormData.fromMap(data);
+    return await _sendData(formData, path, 'POST');
+  }
+
+  static uploadFile(String path, Uint8List bytes) async {
+    final formData =
+        FormData.fromMap({'archivo': MultipartFile.fromBytes(bytes)});
+
+    return await _sendData(formData, path, 'PUT');
   }
 
   static delete(String path) async {
@@ -41,15 +52,13 @@ class LGApi {
   }
 
   static Future<dynamic> _sendData(
-      Map<String, dynamic> data, String path, String method) async {
-    final formData = FormData.fromMap(data);
-
+      FormData data, String path, String method) async {
     try {
       final Response resp;
       if (method == 'POST') {
-        resp = await _dio.post(path, data: formData);
+        resp = await _dio.post(path, data: data);
       } else if (method == 'PUT') {
-        resp = await _dio.put(path, data: formData);
+        resp = await _dio.put(path, data: data);
       } else {
         throw Exception('Method $method not supported');
       }
