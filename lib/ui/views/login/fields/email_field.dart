@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:admin_dashboard/helpers/validators.dart';
 import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
-import 'package:email_validator/email_validator.dart';
 
 class EmailField extends StatelessWidget {
   const EmailField({
@@ -18,17 +18,7 @@ class EmailField extends StatelessWidget {
     return TextFormField(
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your email';
-        }
-
-        if (!EmailValidator.validate(value)) {
-          return 'Please enter a valid email address';
-        }
-
-        return null;
-      },
+      validator: Validators.emailValidator,
       style: const TextStyle(color: Colors.white),
       decoration: CustomInputs.loginInputStyles(
           hint: 'Enter your email', label: 'Email', icon: Icons.email_outlined),

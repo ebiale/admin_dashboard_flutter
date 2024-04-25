@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/helpers/validators.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
@@ -18,23 +19,7 @@ class PasswordField extends StatelessWidget {
       obscureText: true,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Password is required';
-        }
-
-        if (value.length < 8) {
-          return 'Password must be at least 8 characters long';
-        }
-
-        RegExp regex = RegExp('[\'"\\/]');
-
-        if (value.contains(regex)) {
-          return 'Password contains invalid characters';
-        }
-
-        return null;
-      },
+      validator: Validators.passwordValidator,
       style: const TextStyle(color: Colors.white),
       decoration: CustomInputs.loginInputStyles(
           hint: '*********',

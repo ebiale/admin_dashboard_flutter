@@ -6,6 +6,7 @@ class App {
 }
 
 class API {
+  static const String baseUrl = 'http://localhost:8080/api';
   static const String auth = '/auth';
   static const String login = '$auth/login';
   static const String users = '/usuarios';

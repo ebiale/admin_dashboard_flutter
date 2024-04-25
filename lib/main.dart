@@ -15,6 +15,7 @@ import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/categories_providers.dart';
 import 'package:admin_dashboard/providers/side_menu_provider.dart';
+import 'package:admin_dashboard/providers/user_form_provider.dart';
 import 'package:admin_dashboard/providers/users_provider.dart';
 
 import 'package:admin_dashboard/ui/scroll_behavior.dart';
@@ -42,6 +43,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
         ChangeNotifierProvider(create: (_) => UsersProvider()),
+        ChangeNotifierProvider(create: (_) => UserFormProvider()),
       ],
       child: const MyApp(),
     );

@@ -1,3 +1,7 @@
+import 'package:admin_dashboard/helpers/validators.dart';
+import 'package:admin_dashboard/router/router.dart';
+import 'package:admin_dashboard/services/navigation_service.dart';
+import 'package:admin_dashboard/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +11,7 @@ import 'package:admin_dashboard/helpers/image_helper.dart';
 
 import 'package:admin_dashboard/models/http/users.dart';
 
+import 'package:admin_dashboard/providers/user_form_provider.dart';
 import 'package:admin_dashboard/providers/users_provider.dart';
 
 import 'package:admin_dashboard/ui/cards/white_cart.dart';
@@ -30,10 +35,27 @@ class _UserViewState extends State<UserView> {
     super.initState();
 
     final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+    final userProvider = Provider.of<UserFormProvider>(context, listen: false);
 
-    usersProvider.getUserById(widget.uid).then((value) => setState(() {
+    usersProvider.getUserById(widget.uid).then((value) {
+      if (value != null) {
+        userProvider.user = value;
+        userProvider.formKey = GlobalKey();
+
+        setState(() {
           user = value;
-        }));
+        });
+      } else {
+        NavigationService.replaceTo(Flurorouter.usersRoute);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    user = null;
+    Provider.of<UserFormProvider>(context, listen: false).user = null;
+    super.dispose();
   }
 
   @override
@@ -81,13 +103,22 @@ class _UserViewBody extends StatelessWidget {
 class _UserViewForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userFormProvider = Provider.of<UserFormProvider>(context);
+    final usersProvider = Provider.of<UsersProvider>(context);
+    final user = userFormProvider.user;
+
     return WhiteCard(
         title: 'General Info',
         child: Form(
+            key: userFormProvider.formKey,
             autovalidateMode: AutovalidateMode.always,
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: user!.name,
+                  validator: Validators.userValidator,
+                  onChanged: (value) =>
+                      userFormProvider.copyUserWith(name: value),
                   decoration: CustomInputs.formInputDecoration(
                       hint: 'User name',
                       label: 'Name',
@@ -95,6 +126,10 @@ class _UserViewForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  initialValue: user.email,
+                  validator: Validators.emailValidator,
+                  onChanged: (value) =>
+                      userFormProvider.copyUserWith(email: value),
                   decoration: CustomInputs.formInputDecoration(
                       hint: 'User email',
                       label: 'Email',
@@ -107,7 +142,16 @@ class _UserViewForm extends StatelessWidget {
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 120),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final saved = await userFormProvider.updateUser();
+
+                          if (saved) {
+                            usersProvider.refreshUser(user);
+
+                            NotificationService.showSnackBarMsg(
+                                'User updated', NotificationType.success);
+                          }
+                        },
                         style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(AppColors.primary),
@@ -133,6 +177,9 @@ class _UserViewForm extends StatelessWidget {
 class _AvatarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userFormProvider = Provider.of<UserFormProvider>(context);
+    final user = userFormProvider.user;
+
     return WhiteCard(
         child: SizedBox(
       width: double.infinity,
@@ -175,8 +222,8 @@ class _AvatarContainer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text('User name',
-              style: TextStyle(fontWeight: FontWeight.bold),
+          Text(user!.name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center)
         ],
       ),

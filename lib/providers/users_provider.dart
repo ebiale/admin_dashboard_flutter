@@ -33,12 +33,12 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<User> getUserById(String uid) async {
+  Future<User?> getUserById(String uid) async {
     try {
       final resp = await LGApi.httpGet('${API.users}/$uid');
       return User.fromJson(resp);
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 
@@ -58,42 +58,6 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  Future addUser(String name) async {
-    final data = {'nombre': name};
-    try {
-      final resp = await LGApi.post(API.users, data);
-      final user = User.fromJson(resp);
-
-      users.add(user);
-      notifyListeners();
-      NotificationService.showSnackBarMsg(
-          'Successfully added user: $name', NotificationType.success);
-    } catch (e) {
-      NotificationService.showSnackBarMsg(
-          'Error adding user: $name', NotificationType.error);
-    }
-  }
-
-  Future editUser(String newName, String id) async {
-    final data = {'nombre': newName};
-    final String url = '${API.users}/$id';
-
-    try {
-      await LGApi.put(url, data);
-
-      final index = users.indexWhere((element) => element.uid == id);
-      if (index != -1) {
-        users[index].name = newName;
-      }
-      notifyListeners();
-      NotificationService.showSnackBarMsg(
-          'Successfully edited user: $newName', NotificationType.success);
-    } catch (e) {
-      NotificationService.showSnackBarMsg(
-          'Error updating user', NotificationType.error);
-    }
-  }
-
   Future removeUser(User user) async {
     try {
       await LGApi.delete('${API.users}/${user.uid}');
@@ -105,5 +69,13 @@ class UsersProvider extends ChangeNotifier {
       NotificationService.showSnackBarMsg(
           'Error deleting user: $user.name', NotificationType.error);
     }
+  }
+
+  void refreshUser(User user) {
+    final index = users.indexWhere((element) => element.uid == user.uid);
+    if (index != -1) {
+      users[index] = user;
+    }
+    notifyListeners();
   }
 }

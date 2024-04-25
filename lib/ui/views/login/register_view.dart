@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/helpers/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,13 +48,7 @@ class RegisterView extends StatelessWidget {
                         onFieldSubmitted: (_) {
                           onFormSubmit(registrationFormProvider, authProvider);
                         },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
-                          }
-
-                          return null;
-                        },
+                        validator: Validators.userValidator,
                       ),
                       const SizedBox(
                         height: 20,
