@@ -6,7 +6,8 @@ class App {
 }
 
 class API {
-  static const String baseUrl = 'http://localhost:8080/api';
+  static const String baseUrl =
+      'https://flutter-admin-web-cce5fcadf567.herokuapp.com/api';
   static const String auth = '/auth';
   static const String login = '$auth/login';
   static const String users = '/usuarios';
