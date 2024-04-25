@@ -1,8 +1,10 @@
-import 'package:admin_dashboard/constants/system.dart';
-import 'package:admin_dashboard/providers/side_menu_provider.dart';
 import 'package:flutter/material.dart';
 
+import 'package:admin_dashboard/constants/system.dart';
 import 'package:admin_dashboard/constants/colors.dart';
+
+import 'package:admin_dashboard/providers/side_menu_provider.dart';
+
 import 'package:admin_dashboard/ui/shared/nav_bar.dart';
 import 'package:admin_dashboard/ui/shared/sidebar.dart';
 

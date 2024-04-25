@@ -1,5 +1,5 @@
-import 'package:admin_dashboard/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:admin_dashboard/constants/colors.dart';
 
 enum NotificationType { error, warning, success, info }
 

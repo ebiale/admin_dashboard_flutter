@@ -1,4 +1,3 @@
-import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +10,7 @@ import 'package:admin_dashboard/models/http/users.dart';
 import 'package:admin_dashboard/providers/users_provider.dart';
 
 import 'package:admin_dashboard/ui/cards/white_cart.dart';
+import 'package:admin_dashboard/ui/inputs/custom_inputs.dart';
 import 'package:admin_dashboard/ui/labels/custom_labels.dart';
 
 class UserView extends StatefulWidget {

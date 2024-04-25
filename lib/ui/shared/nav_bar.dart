@@ -1,10 +1,12 @@
-import 'package:admin_dashboard/constants/system.dart';
-import 'package:admin_dashboard/providers/side_menu_provider.dart';
-import 'package:admin_dashboard/ui/shared/widgets/nav_bar_avatar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:admin_dashboard/ui/shared/widgets/search_text.dart';
+import 'package:admin_dashboard/constants/system.dart';
+
+import 'package:admin_dashboard/providers/side_menu_provider.dart';
+
+import 'package:admin_dashboard/ui/shared/widgets/nav_bar_avatar.dart';
 import 'package:admin_dashboard/ui/shared/widgets/notifications_indicator.dart';
+import 'package:admin_dashboard/ui/shared/widgets/search_text.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});

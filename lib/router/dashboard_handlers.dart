@@ -1,8 +1,9 @@
+import 'package:fluro/fluro.dart';
+import 'package:provider/provider.dart';
+
 import 'package:admin_dashboard/ui/views/categories_view.dart';
 import 'package:admin_dashboard/ui/views/user_view.dart';
 import 'package:admin_dashboard/ui/views/users_view.dart';
-import 'package:fluro/fluro.dart';
-import 'package:provider/provider.dart';
 
 import 'package:admin_dashboard/providers/side_menu_provider.dart';
 import 'package:admin_dashboard/providers/auth_provider.dart';

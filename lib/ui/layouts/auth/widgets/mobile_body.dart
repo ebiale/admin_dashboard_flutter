@@ -1,5 +1,3 @@
-// ignore_for_file: sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 
 import 'package:admin_dashboard/ui/layouts/auth/widgets/background_app.dart';
@@ -18,15 +16,15 @@ class MobileBody extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           const CustomTitle(),
-          Container(
+          SizedBox(
             width: double.infinity,
             height: 420,
             child: child,
           ),
-          Container(
+          const SizedBox(
             width: double.infinity,
             height: 420,
-            child: const BackgroundApp(),
+            child: BackgroundApp(),
           )
         ],
       ),

@@ -1,14 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/users_provider.dart';
+
 import 'package:admin_dashboard/router/router.dart';
+
 import 'package:admin_dashboard/services/navigation_service.dart';
-import 'package:flutter/material.dart';
 
 import 'package:admin_dashboard/helpers/image_helper.dart';
 import 'package:admin_dashboard/constants/colors.dart';
 
 import 'package:admin_dashboard/models/http/users.dart';
-import 'package:provider/provider.dart';
 
 class UsersDTS extends DataTableSource {
   final BuildContext context;

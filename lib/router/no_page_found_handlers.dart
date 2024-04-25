@@ -1,8 +1,8 @@
-import 'package:admin_dashboard/providers/side_menu_provider.dart';
 import 'package:fluro/fluro.dart';
-
-import 'package:admin_dashboard/ui/views/no_page_found.dart';
 import 'package:provider/provider.dart';
+
+import 'package:admin_dashboard/providers/side_menu_provider.dart';
+import 'package:admin_dashboard/ui/views/no_page_found.dart';
 
 class NoPageFoundHandlers {
   static Handler page404 = Handler(handlerFunc: (context, params) {
