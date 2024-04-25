@@ -25,10 +25,17 @@ class UsersDTS extends DataTableSource {
     final user = users[index];
     final currentUser = Provider.of<AuthProvider>(context).user;
 
-    final image = Image(
-        image: AssetImage(ImageHelper.getImagePath('noimage.jpg')),
-        width: 35,
-        height: 35);
+    final image = (user.img == null)
+        ? Image(
+            image: AssetImage(ImageHelper.getImagePath('noimage.jpg')),
+            width: 35,
+            height: 35)
+        : FadeInImage.assetNetwork(
+            placeholder: ImageHelper.getImagePath('loader.gif'),
+            image: user.img!,
+            width: 35,
+            height: 35,
+            fit: BoxFit.cover);
     return DataRow.byIndex(index: index, cells: [
       DataCell(ClipOval(child: image)),
       DataCell(Text(user.name)),

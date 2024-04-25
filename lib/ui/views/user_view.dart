@@ -1,17 +1,17 @@
-// ignore_for_file: avoid_print
-
-import 'package:admin_dashboard/constants/system.dart';
-import 'package:admin_dashboard/helpers/validators.dart';
-import 'package:admin_dashboard/router/router.dart';
-import 'package:admin_dashboard/services/navigation_service.dart';
-import 'package:admin_dashboard/services/notifications_service.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
+
+import 'package:admin_dashboard/router/router.dart';
+
+import 'package:admin_dashboard/services/navigation_service.dart';
+import 'package:admin_dashboard/services/notifications_service.dart';
 
 import 'package:admin_dashboard/constants/colors.dart';
+import 'package:admin_dashboard/constants/system.dart';
 
 import 'package:admin_dashboard/helpers/image_helper.dart';
+import 'package:admin_dashboard/helpers/validators.dart';
 
 import 'package:admin_dashboard/models/http/users.dart';
 
@@ -182,7 +182,17 @@ class _AvatarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userFormProvider = Provider.of<UserFormProvider>(context);
+    final usersProvider = Provider.of<UsersProvider>(context);
     final user = userFormProvider.user;
+
+    final image = (user!.img == null)
+        ? Image(image: AssetImage(ImageHelper.getImagePath('noImage.jpg')))
+        : FadeInImage.assetNetwork(
+            placeholder: ImageHelper.getImagePath('loader.gif'),
+            image: user.img!,
+            width: 150,
+            height: 150,
+            fit: BoxFit.cover);
 
     return WhiteCard(
         child: SizedBox(
@@ -196,15 +206,13 @@ class _AvatarContainer extends StatelessWidget {
             style: CustomLabels.h2,
           ),
           const SizedBox(height: 20),
-          SizedBox(
+          Container(
             width: 150,
             height: 150,
             child: Stack(
               children: [
                 ClipOval(
-                  child: Image(
-                    image: AssetImage(ImageHelper.getImagePath('noImage.jpg')),
-                  ),
+                  child: image,
                 ),
                 Positioned(
                   bottom: 0,
@@ -225,9 +233,16 @@ class _AvatarContainer extends StatelessWidget {
                                   allowedExtensions: ['jpg', 'jpeg', 'png']);
 
                           if (result != null) {
+                            if (context.mounted) {
+                              NotificationService.showLoadingIndicator(context);
+                            }
                             PlatformFile file = result.files.first;
                             final resp = await userFormProvider.uploadImage(
-                                '${API.uploadImage}/${user!.uid}', file.bytes!);
+                                '${API.uploadImage}/${user.uid}', file.bytes!);
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                            }
+                            usersProvider.refreshUser(resp);
                           } else {
                             // User canceled the picker
                           }
@@ -239,7 +254,7 @@ class _AvatarContainer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(user!.name,
+          Text(user.name,
               style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center)
         ],
