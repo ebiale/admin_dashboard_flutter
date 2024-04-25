@@ -59,7 +59,9 @@ class UsersDTS extends DataTableSource {
                         TextButton(
                             onPressed: () async {
                               await usersProvider.removeUser(user);
-                              Navigator.of(context).pop();
+                              if (context.mounted) {
+                                Navigator.of(context).pop();
+                              }
                             },
                             child: const Text('Confirm')),
                       ],

@@ -115,7 +115,10 @@ class _CategoryModalState extends State<CategoryModal> {
               } else {
                 await categoryProvider.editCategory(name, id!);
               }
-              Navigator.of(context).pop();
+
+              if (mounted) {
+                Navigator.of(context).pop();
+              }
             },
             bgColor: Colors.white,
             textColor: Colors.white,

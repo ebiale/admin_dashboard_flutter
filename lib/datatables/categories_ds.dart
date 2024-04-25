@@ -53,7 +53,9 @@ class CategoriesDTS extends DataTableSource {
                       TextButton(
                           onPressed: () async {
                             await categoryProvider.removeCategory(category);
-                            Navigator.of(context).pop();
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                            }
                           },
                           child: const Text('Confirm')),
                     ],
