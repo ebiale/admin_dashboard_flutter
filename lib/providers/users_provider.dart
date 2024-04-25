@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admin_dashboard/api/lenagurumis_api.dart';
 import 'package:admin_dashboard/constants/system.dart';
 
-import 'package:admin_dashboard/models/http/users.dart';
-import 'package:admin_dashboard/models/http/users_response.dart';
+import 'package:admin_dashboard/models/models.dart';
 
 import 'package:admin_dashboard/services/notifications_service.dart';
 

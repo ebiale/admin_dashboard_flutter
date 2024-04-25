@@ -1,12 +1,11 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:admin_dashboard/api/lenagurumis_api.dart';
 import 'package:admin_dashboard/constants/system.dart';
-import 'package:admin_dashboard/models/http/user_request.dart';
-import 'package:admin_dashboard/models/http/users.dart';
-import 'package:admin_dashboard/services/notifications_service.dart';
-import 'package:flutter/material.dart';
+import 'package:admin_dashboard/models/models.dart';
+import 'package:admin_dashboard/services/services.dart';
 
 class UserFormProvider extends ChangeNotifier {
   User? user;

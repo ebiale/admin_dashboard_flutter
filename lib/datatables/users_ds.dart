@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:admin_dashboard/providers/auth_provider.dart';
-import 'package:admin_dashboard/providers/users_provider.dart';
-
+import 'package:admin_dashboard/providers/providers.dart';
 import 'package:admin_dashboard/router/router.dart';
 
 import 'package:admin_dashboard/services/navigation_service.dart';

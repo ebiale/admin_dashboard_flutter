@@ -6,8 +6,7 @@ import 'package:admin_dashboard/api/lenagurumis_api.dart';
 
 import 'package:admin_dashboard/constants/system.dart';
 
-import 'package:admin_dashboard/models/http/category.dart';
-import 'package:admin_dashboard/models/http/categories_response.dart';
+import 'package:admin_dashboard/models/models.dart';
 
 class CategoriesProvider extends ChangeNotifier {
   List<Category> categories = [];

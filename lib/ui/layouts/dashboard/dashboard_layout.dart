@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admin_dashboard/constants/system.dart';
-import 'package:admin_dashboard/constants/colors.dart';
+import 'package:admin_dashboard/constants/constants.dart';
 
 import 'package:admin_dashboard/providers/side_menu_provider.dart';
 

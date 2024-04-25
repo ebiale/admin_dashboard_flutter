@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:admin_dashboard/constants/colors.dart';
-
 import 'package:admin_dashboard/providers/categories_providers.dart';
+import 'package:admin_dashboard/constants/constants.dart';
 
 import 'package:admin_dashboard/ui/modals/category_modal.dart';
 import 'package:admin_dashboard/models/http/category.dart';
